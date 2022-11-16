@@ -153,10 +153,10 @@ endfunction
 function! indent_guides#lighten_or_darken_color(color)
   let l:new_color = ''
 
-  if (&g:background == 'dark')
+  if (&g:background == 'dark' && g:colors_name !~? 'light')
     let l:new_color = color_helper#hex_color_lighten(a:color, s:change_percent)
   else
-    let l:new_color = color_helper#hex_color_darken (a:color, s:change_percent)
+    let l:new_color = color_helper#hex_color_darken (a:color, s:change_percent_light)
   endif
 
   return l:new_color
@@ -205,21 +205,24 @@ function! indent_guides#init_script_vars()
   " str2float not available in vim versions <= 7.1
   if has('float')
     let s:change_percent = g:indent_guides_color_change_percent / str2float('100.0')
+    let s:change_percent_light = g:indent_guides_color_change_percent_light / str2float('100.0')
   else
     let s:change_percent = g:indent_guides_color_change_percent / 100.0
+    let s:change_percent_light = g:indent_guides_color_change_percent_light / 100.0
   endif
 
   if s:debug
-    echo 's:indent_size = '       . s:indent_size
-    echo 's:guide_size = '        . s:guide_size
-    echo 's:hi_normal = '         . s:hi_normal
-    echo 's:indent_levels = '     . s:indent_levels
-    echo 's:auto_colors = '       . s:auto_colors
-    echo 's:change_percent = '    . string(s:change_percent)
-    echo 's:color_hex_pat = '     . s:color_hex_pat
-    echo 's:color_hex_bg_pat = '  . s:color_hex_bg_pat
-    echo 's:color_name_bg_pat = ' . s:color_name_bg_pat
-    echo 's:start_level = '       . s:start_level
+    echo 's:indent_size = '             . s:indent_size
+    echo 's:guide_size = '              . s:guide_size
+    echo 's:hi_normal = '               . s:hi_normal
+    echo 's:indent_levels = '           . s:indent_levels
+    echo 's:auto_colors = '             . s:auto_colors
+    echo 's:change_percent = '          . string(s:change_percent)
+    echo 's:change_percent_light = '    . string(s:change_percent_light)
+    echo 's:color_hex_pat = '           . s:color_hex_pat
+    echo 's:color_hex_bg_pat = '        . s:color_hex_bg_pat
+    echo 's:color_name_bg_pat = '       . s:color_name_bg_pat
+    echo 's:start_level = '             . s:start_level
   endif
 endfunction
 
